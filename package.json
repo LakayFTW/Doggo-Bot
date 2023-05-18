@@ -1,0 +1,23 @@
+{
+  "name": "doggo-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LakayFTW/Doggo-Bot.git"
+  },
+  "keywords": [],
+  "author": "LakayFTW",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LakayFTW/Doggo-Bot/issues"
+  },
+  "homepage": "https://github.com/LakayFTW/Doggo-Bot#readme",
+  "dependencies": {
+    "discord.js": "^14.11.0"
+  }
+}
