@@ -15,10 +15,9 @@ module.exports = {
   async execute(interaction) {
     const city = interaction.options.getString("city", true).toLowerCase();
 
-    await WeatherApi.getWeather("leer", async function (result) {
+    await WeatherApi.getWeather(city, async function (result) {
       await interaction.reply({
-        content: `Wetter in: ${result['location']['name']}\n${result['location']['region']} : ${result['location']['country']}\n${result['current']['last_updated']}\n\nDas Wetter jetzt gerade:\nTemperatur: ${result['current']['temp_c']} °C\nBedingung: ${result['current']['condition']['text']}\nWindstärke: ${result['current']['wind_kph']} km/h\nWindrichtung: ${result['current']['wind_dir']}`,
-        ephemeral: true,
+        content: `Wetter in: ${result['location']['name']}\n${result['location']['region']} - ${result['location']['country']}\n${result['current']['last_updated']}\n\nDas Wetter jetzt gerade:\nTemperatur: ${result['current']['temp_c']} °C\nBedingung: ${result['current']['condition']['text']}\nWindstärke: ${result['current']['wind_kph']} km/h\nWindrichtung: ${result['current']['wind_dir']}`,
       });
     });
   },
