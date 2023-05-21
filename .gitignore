@@ -162,4 +162,8 @@ dist
 .history
 .ionide
 
+# Custom Ignores
+src/api/weather/test.js
+test.json
+
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode
