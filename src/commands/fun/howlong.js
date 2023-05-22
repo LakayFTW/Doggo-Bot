@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const { HowLongToBeatService } = require("howlongtobeat");
+const { HowLongToBeatService, HowLongToBeatEntry } = require("howlongtobeat");
 
 let hltbService = new HowLongToBeatService();
 
@@ -19,7 +19,7 @@ module.exports = {
 
     await hltbService.search(game).then((result) =>
       interaction.reply({
-        content: `Game: ${result[0]["name"]}\nMain Story: ${result[0]['gameplayMain']}\nMain + Extra: ${result[0]['gameplayMainExtra']}\nCompletionist: ${result[0]['gameplayCompletionist']}\n<${result[0]['imageUrl']}>`,
+        content: `Game: ${result[0]["name"]}\nMain Story: ${result[0]['gameplayMain']} Std\nMain + Extra: ${result[0]['gameplayMainExtra']} Std\nCompletionist: ${result[0]['gameplayCompletionist']} Std\n<${result[0]['imageUrl']}>`,
       }),
     );
   },
