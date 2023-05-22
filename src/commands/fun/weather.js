@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require("discord.js");
 const WeatherApi = require("../../api/weather/weather.js");
 
+//maybe add an subcommand for current and future weather
+//also buttons for current an future could be a possibility and edit the response
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("weather")
