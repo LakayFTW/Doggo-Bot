@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const steam = require("../../api/steam/steamuser.js");
 
 module.exports = {
@@ -19,14 +19,60 @@ module.exports = {
         )
     ),
     category: "fun",
-    async execute (interaction) {
+    async execute (interaction, client) {
         const steamUser = interaction.options.getString("vanityurl", true);
 
         await steam.getUser(steamUser, async function(result){
-            let response = result.response.players[0]
-            await interaction.reply({
-                content: `Steam User:\n Username: ${response.personaname}\n Profilbild: ${response.avatar}\n URL: ${response.profileurl}`,
-            });
+          let response = result.response.players[0]
+            if(response.communityvisibilitystate !== 3){
+              const Build = EmbedBuilder()
+              .setColor(0xC50000)
+              .setTitle(`${response.personaname}`)
+              .setURL(`${response.profileurl}`)
+              .setDescription("The requested profile")
+              .setThumbnail(`${response.avatarmedium}`)
+              .addFields(
+                { name: '\u200B', value: '\u200B'},
+                { name: 'Profile Visibility', value: 'This profile is not public'},
+                { name: 'Status', value: `${checkStatus(response.personastate)}`, inline: true}
+              )
+              .setImage(`${response.avatarfull}`)
+              .setTimestamp()
+              .setFooter({ text: "Provided by Doggo" });
+
+              await interaction.reply({
+                embeds: [Build],
+              })
+            } else {
+              const Build = new EmbedBuilder()
+              .setColor(0x32cd32)
+              .setTitle(`${response.personaname}`)
+              .setURL(`${response.profileurl}`)
+              .setDescription("The requested profile")
+              .setThumbnail(`${response.avatarmedium}`)
+              .addFields(
+                { name: '\u200B', value: '\u200B'},
+                { name: 'Profile Visibility', value: 'This profile is public', inline: true},
+                { name: 'Status', value: `${checkStatus(response.personastate)}`, inline: true}
+              )
+              .setImage(`${response.avatarfull}`)
+              .setTimestamp()
+              .setFooter({ text: "Provided by Doggo" });
+  
+              await interaction.reply({
+                embeds: [Build],
+              })
+            }
         });
     },
 };
+
+function checkStatus(code) {
+  if(code === 0) return "Offline";
+  if(code === 1) return "Online";
+  if(code === 2) return "Busy";
+  if(code === 3) return "Away";
+  if(code === 4) return "Snooze";
+  if(code === 5) return "looking to trade";
+  if(code === 6) return "looking to play";
+}

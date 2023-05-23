@@ -7,7 +7,8 @@ const getUser = async (vanityUrl, callback) => {
       `http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${steamAPI}&vanityurl=${vanityUrl}`
     )
     .then((result) => {
-      if(!result.data.message == "No match"){
+      if(result.data.response.success == 1){
+        // console.log("Hier vanity gefunden: "+ vanityUrl)
         axios
         .get(
           `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${steamAPI}&steamids=${result.data.response.steamid}`
@@ -20,6 +21,7 @@ const getUser = async (vanityUrl, callback) => {
           console.log(error);
         });
       }else{
+        // console.log("Hier Vanity nicht gefunden: " + vanityUrl)
         axios
         .get(
           `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${steamAPI}&steamids=${vanityUrl}`
