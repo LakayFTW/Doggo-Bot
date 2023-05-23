@@ -25,7 +25,7 @@ module.exports = {
         await steam.getUser(steamUser, async function(result){
           let response = result.response.players[0]
             if(response.communityvisibilitystate !== 3){
-              const Build = EmbedBuilder()
+              const Build = new EmbedBuilder()
               .setColor(0xC50000)
               .setTitle(`${response.personaname}`)
               .setURL(`${response.profileurl}`)
