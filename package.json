@@ -5,7 +5,9 @@
   "main": "src/main.js",
   "scripts": {
     "test": "",
-    "run": "node main.js"
+    "bot": "node src/main.js",
+    "deploy-all": "node src/deploy-commands-all.js",
+    "deploy-test": "node src/deploy-commands-testguild.js"
   },
   "repository": {
     "type": "git",
