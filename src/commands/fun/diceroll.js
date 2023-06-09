@@ -21,9 +21,10 @@ module.exports = {
   async execute(interaction) {
     const dieOption = interaction.options.getString("die", true);
 
+    var seed = new Date().getTime();
     var dieResult = 0;
     while (dieResult < 1) {
-      dieResult = Math.floor(Math.random() * dieOption);
+      dieResult = Math.floor(Math.random(seed) * dieOption);
     }
 
     const Build = new EmbedBuilder()
