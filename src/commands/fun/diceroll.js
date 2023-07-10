@@ -39,9 +39,10 @@ module.exports = {
       .setLabel("Retry")
       .setStyle(ButtonStyle.Success);
 
+    var retries = 0;
     const row = new ActionRowBuilder().addComponents(retry);
     var result = await generateDie(dieOption, dieAmount);
-    var Build = await buildEmbed(result);
+    var Build = await buildEmbed(result, retries);
 
     const response = await interaction.reply({
       embeds: [Build],
@@ -50,26 +51,31 @@ module.exports = {
 
     const collectorFilter = (i) => i.user.id === interaction.user.id;
 
-    try {
-      const confirmation = await response.awaitMessageComponent({
-        filter: collectorFilter,
-        time: 60000,
-      });
+    while (true) {
+      try {
+        const confirmation = await response.awaitMessageComponent({
+          filter: collectorFilter,
+          time: 60000,
+        });
 
-      if (confirmation.customId === "retry") {
-        result = await generateDie(dieOption, dieAmount);
-        Build = await buildEmbed(result);
-        await confirmation.update({
-          content: "Your retry",
-          embeds: [Build],
+        if (confirmation.customId === "retry") {
+          retries++;
+          result = await generateDie(dieOption, dieAmount);
+          Build = await buildEmbed(result, retries);
+          await confirmation.update({
+            content: "Your retry",
+            embeds: [Build],
+            components: [row],
+          });
+          continue;
+        }
+      } catch (e) {
+        await interaction.editReply({
+          content: "Confirmation not received within 1 minute, cancelling",
           components: [],
         });
+        break;
       }
-    } catch (e) {
-      await interaction.editReply({
-        content: "Confirmation not received within 1 minute, cancelling",
-        components: [],
-      });
     }
   },
 };
@@ -88,7 +94,7 @@ async function generateDie(dieOption, dieAmount) {
   var allDice = 0;
   for (var i = 0; i < dieArr.length; i++) {
     dieSequence += dieArr[i];
-    dieSequence =+ ", ";
+    dieSequence = +", ";
     allDice += dieArr[i];
   }
   result.push(allDice);
@@ -96,12 +102,13 @@ async function generateDie(dieOption, dieAmount) {
   return result;
 }
 
-async function buildEmbed(result) {
+async function buildEmbed(result, retries) {
   var Build = new EmbedBuilder()
     .setColor(0x0099ff)
     .setTitle("Your throw result: :game_die:")
     .addFields(
-      { name: "Result", value: `${result[0]}` },
+      { name: "Result", value: `${result[0]}`, inline: true },
+      { name: "Retries", value: `${retries}`, inline: true },
       { name: "Your dice", value: `${result[1]}` }
     )
     .setTimestamp()
