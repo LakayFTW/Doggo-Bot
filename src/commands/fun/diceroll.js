@@ -87,7 +87,8 @@ async function generateDie(dieOption, dieAmount) {
   var dieSequence = "";
   var allDice = 0;
   for (var i = 0; i < dieArr.length; i++) {
-    dieSequence += dieArr[i] + ", ";
+    dieSequence += dieArr[i];
+    dieSequence =+ ", ";
     allDice += dieArr[i];
   }
   result.push(allDice);
@@ -98,7 +99,7 @@ async function generateDie(dieOption, dieAmount) {
 async function buildEmbed(result) {
   var Build = new EmbedBuilder()
     .setColor(0x0099ff)
-    .setTitle("Your throw result:")
+    .setTitle("Your throw result: :game_die:")
     .addFields(
       { name: "Result", value: `${result[0]}` },
       { name: "Your dice", value: `${result[1]}` }
