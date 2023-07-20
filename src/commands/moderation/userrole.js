@@ -32,9 +32,6 @@ module.exports = {
     const role = interaction.options.getRole("role");
     const option = interaction.options.getString("option", true);
 
-    console.log(role);
-    console.log(member);
-
     if (option == "0") {
       var Build = await addRole(member, role);
     }
