@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  doggo-bot:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: doggo-bot
+    container_name: doggo-bot
+    restart: unless-stopped
