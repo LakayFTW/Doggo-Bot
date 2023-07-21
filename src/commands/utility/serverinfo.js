@@ -25,10 +25,14 @@ module.exports = {
     const voiceChannelCount = voiceChannels.size;
     const roleCount = interaction.guild.roles.cache.size;
     const roleList = [];
-    await interaction.guild.roles.cache.forEach((role) => {
-      roleList.push(role.name);
-    });
-    
+    await interaction.guild.roles.cache
+      .filter((role) => {
+        return role.members.some((member) => !member.user.bot);
+      })
+      .forEach((role) => {
+        roleList.push(role.name);
+      });
+
     const Build = new EmbedBuilder()
       .setTitle(`${name}`)
       .setColor(0x0099ff)
@@ -39,7 +43,7 @@ module.exports = {
         { name: "Text Channels", value: `${textChannelCount}`, inline: true },
         { name: "Voice Channels", value: `${voiceChannelCount}`, inline: true },
         { name: "Roles", value: `${roleCount}`, inline: true },
-        { name: "List of Roles", value: `${roleList}` }
+        { name: "List of roles used", value: `${roleList}` }
       )
       .setTimestamp()
       .setFooter({ text: "Provided by Doggo" });
