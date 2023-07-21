@@ -23,6 +23,7 @@ module.exports = {
 
     await interaction.reply({
       embeds: [Build],
+      ephemeral: true,
     });
   },
 };
