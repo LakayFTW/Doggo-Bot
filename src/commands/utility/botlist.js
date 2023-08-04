@@ -36,7 +36,7 @@ module.exports = {
     const row = new ActionRowBuilder().addComponents(previousPage, nextPage);
 
     const ITEMS_PER_PAGE = 6;
-    const toalPages = Math.ceil(bots.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(bots.length / ITEMS_PER_PAGE);
     let currentPage = 1;
     const pageIndex = currentPage - 1;
     const startIndex = pageIndex * ITEMS_PER_PAGE;
@@ -71,8 +71,14 @@ module.exports = {
         });
 
         if (collector.customId === "previous") {
+          if(currentPage == 1){
+            currentPage = totalPages;
+          }
           currentPage--;
         } else if (collector.customId === "next") {
+          if(currentPage == totalPages){
+            currentPage = 1;
+          }
           currentPage++;
         }
 
