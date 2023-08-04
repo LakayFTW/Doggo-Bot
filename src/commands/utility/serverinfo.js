@@ -9,18 +9,22 @@ module.exports = {
   async execute(interaction) {
     const name = interaction.guild.name;
     const usercount = interaction.guild.memberCount;
+    const guild = interaction.guild;
 
     const options = { year: "numeric", month: "long", day: "numeric" };
     const createDate = interaction.guild.createdAt;
     const date = new Date(createDate).toLocaleDateString("en-US", options);
 
     const owner = await interaction.guild.fetchOwner();
-    const textChannels = interaction.guild.channels.cache.filter(
-      (channel) => channel.type === "GUILD_TEXT"
+
+    await guild.channels.fetch();
+
+    const textChannels = guild.channels.cache.filter(
+      (channel) => channel.type === 0
     );
     const textChannelCount = textChannels.size;
-    const voiceChannels = interaction.guild.channels.cache.filter(
-      (channel) => channel.type === "GUILD_VOICE"
+    const voiceChannels = guild.channels.cache.filter(
+      (channel) => channel.type === 2
     );
     const voiceChannelCount = voiceChannels.size;
     const roleCount = interaction.guild.roles.cache.size;
